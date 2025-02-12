@@ -1,25 +1,46 @@
 package org.example;
 
 import java.util.*;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
+        String s = "xxxxxx";
         System.out.println(isValid("[])"));
     }
 
+    public static ListNode mergeKLists(ListNode[] lists) {
+        if (lists == null || lists.length == 0) return null;
+        return mergeSortLinkedList(lists, 0, lists.length - 1);
+    }
+    public static ListNode mergeSortLinkedList(ListNode[] lists, int left, int right) {
+        if (left==right) return lists[left];
+        int mid = (left + right) >> 1;
+        ListNode l1 = mergeSortLinkedList(lists, left, mid);
+        ListNode l2 = mergeSortLinkedList(lists, mid + 1, right);
+        return mergeTwoLists(l1, l2);
+    }
+    public static List<String> generateParenthesisDP(int n) {
+        List<String> res = new ArrayList<>();
+        generateParenthesisBacktracking(res, "", 0, 0, n);
+        return res;
+    }
     public static List<String> generateParenthesis(int n) {
         List<String> res = new ArrayList<>();
-        generateParenthesisBacktracking(res, new StringBuilder(), 0, 0, n);
+        generateParenthesisBacktracking(res, "", 0, 0, n);
         return res;
     }
 
-    public static List<String> generateParenthesisBacktracking(List<String> res, StringBuilder current, int open, int close, int n) {
+    public static void generateParenthesisBacktracking(List<String> res, String current, int open, int close, int n) {
         if (current.length() == 2 * n) {
-            
+            res.add(current.toString());
+            return;
         }
-        return new ArrayList<>();
+        if (open < n) {
+            generateParenthesisBacktracking(res, current + '(', open + 1, close, n);
+        }
+        if (close < open) {
+            generateParenthesisBacktracking(res, current + ')', open, close + 1, n);
+        }
     }
 
 
