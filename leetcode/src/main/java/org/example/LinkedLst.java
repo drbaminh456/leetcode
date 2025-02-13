@@ -2,38 +2,9 @@ package org.example;
 
 import java.util.*;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
-public class Main {
-    public static void main(String[] args) {
-        int[] nums = {1,1,2};
-        System.out.println(removeDuplicates(nums));
-    }
+public class LinkedLst {
 
-    public static int removeDuplicates(int[] nums) {
-        if (nums.length == 0) return 0;
-        int i = 0;
-        for (int j = 1; j <= nums.length - 1; j++) {
-            if (nums[i] != nums[j]){
-                i++;
-                nums[i] = nums[j];
-            }
-        }
-        return i + 1;
-    }
-
-    public static int removeElement(int[] nums, int val) {
-
-    }
-
-    public static ListNode swapPairs(ListNode head) {
-        if (head == null || head.next == null) return head;
-        ListNode first = head;
-        ListNode second = head.next;
-        first.next = swapPairs(second.next);
-        second.next = first;
-        return second;
-    }
     public static ListNode mergeKLists(ListNode[] lists) {
         if (lists == null || lists.length == 0) return null;
         return mergeSortLinkedList(lists, 0, lists.length - 1);
@@ -45,6 +16,30 @@ public class Main {
         ListNode l2 = mergeSortLinkedList(lists, mid + 1, right);
         return mergeTwoLists(l1, l2);
     }
+    public static List<String> generateParenthesisDP(int n) {
+        List<String> res = new ArrayList<>();
+        generateParenthesisBacktracking(res, "", 0, 0, n);
+        return res;
+    }
+    public static List<String> generateParenthesis(int n) {
+        List<String> res = new ArrayList<>();
+        generateParenthesisBacktracking(res, "", 0, 0, n);
+        return res;
+    }
+
+    public static void generateParenthesisBacktracking(List<String> res, String current, int open, int close, int n) {
+        if (current.length() == 2 * n) {
+            res.add(current.toString());
+            return;
+        }
+        if (open < n) {
+            generateParenthesisBacktracking(res, current + '(', open + 1, close, n);
+        }
+        if (close < open) {
+            generateParenthesisBacktracking(res, current + ')', open, close + 1, n);
+        }
+    }
+
 
     //Stack/Queue
     public static boolean isValid(String s) {
@@ -160,7 +155,37 @@ public class Main {
         return res;
     }
 
-    
+    public static List<String> letterCombinations(String digits) {
+        if (digits == null || digits.isEmpty()) {
+            return new ArrayList<>();
+        }
+        List<String> res = new ArrayList<>();
+        recursive(digits, res, new StringBuilder(), 0);
+        return res;
+    }
+
+    public static void recursive(String digits, List<String> res, StringBuilder current, int index) {
+        Map<Character, String> DIGIT_TO_LETTERS = new HashMap<>();
+        DIGIT_TO_LETTERS.put('2', "abc");
+        DIGIT_TO_LETTERS.put('3', "def");
+        DIGIT_TO_LETTERS.put('4', "ghi");
+        DIGIT_TO_LETTERS.put('5', "jkl");
+        DIGIT_TO_LETTERS.put('6', "mno");
+        DIGIT_TO_LETTERS.put('7', "pqrs");
+        DIGIT_TO_LETTERS.put('8', "tuv");
+        DIGIT_TO_LETTERS.put('9', "wxyz");
+        if (index == digits.length()) {
+            res.add(current.toString());
+            return;
+        }
+        char digit = digits.charAt(index);
+        String choices = DIGIT_TO_LETTERS.get(digit);
+        for (char choice : choices.toCharArray()) {
+            current.append(choice);
+            recursive(digits, res, current, index + 1);
+            current.deleteCharAt(current.length() - 1);
+        }
+    }
 
     public static int threeSumClosest(int[] nums, int target) {
         if (nums == null || nums.length < 3) {
@@ -518,16 +543,5 @@ public class Main {
 
         return maxLength;
     }
-
-    public static double findMedianSortedArrays(int[] nums1, int[] nums2) {
-        List<Integer> mergeList = new ArrayList<>();
-        mergeList.addAll(new ArrayList<>(Arrays.stream(nums1).boxed().collect(Collectors.toList())));
-        mergeList.addAll(new ArrayList<>(Arrays.stream(nums2).boxed().collect(Collectors.toList())));
-        mergeList = mergeList.stream().sorted().collect(Collectors.toList());
-        if (mergeList.size() % 2 == 0) {
-            return (mergeList.get((mergeList.size() / 2) - 1) + (double) mergeList.get((mergeList.size() / 2))) / 2;
-        } else {
-            return mergeList.get(mergeList.size() / 2);
-        }
-    }
+    
 }
