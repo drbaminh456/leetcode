@@ -6,10 +6,37 @@ import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
-        int[] nums = {1,1,2};
+        int[] nums = {2,2,2,3};
         System.out.println(removeDuplicates(nums));
     }
 
+    public static void nextPermutation(int[] nums) {
+        int i;
+        for (i = nums.length - 2; i >= 0; --i) {
+            if (nums[i] < nums[i + 1]) {
+                break;
+            }
+        }
+        if (i >= 0) {
+            for (int j = nums.length - 1; j > i; j--) {
+                if (nums[j] > nums[i]) {
+                    int temp = nums[j];
+                    nums[j] = nums[i];
+                    nums[i] = temp;
+                }
+            }
+        }
+        reverse(nums, i + 1, nums.length - 1);
+    }
+    private static void reverse(int[] nums, int l, int r) {
+        while (l < r)
+            swap(nums, l++, r--);
+    }
+    private static void swap(int[] nums, int i, int j) {
+        final int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
     public static int removeDuplicates(int[] nums) {
         if (nums.length == 0) return 0;
         int i = 0;
@@ -23,7 +50,15 @@ public class Main {
     }
 
     public static int removeElement(int[] nums, int val) {
-
+        if (nums.length == 0) return 0;
+        int i = 0;
+        for (int j = 0; j <= nums.length - 1; j++) {
+            if (nums[j] != val){
+                nums[i] = nums[j];
+                i++;
+            }
+        }
+        return i;
     }
 
     public static ListNode swapPairs(ListNode head) {
