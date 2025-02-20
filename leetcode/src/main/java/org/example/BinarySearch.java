@@ -1,7 +1,7 @@
 package org.example;
 
 public class BinarySearch {
-    public static void main(String[] args) {
+    public static void main(xString[] args) {
         int[] nums = {2, 2, 2, 3};
     }
 

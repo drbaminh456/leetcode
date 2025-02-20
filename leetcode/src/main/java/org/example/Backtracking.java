@@ -1,13 +1,31 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+package org.example;
+
+import java.util.*;
 
 public class Backtracking {
-    public static List<String> generateParenthesis(int n) {
-        List<String> res = new ArrayList<>();
-        generateParenthesisBacktracking(res, "", 0, 0, n);
+    public static void main(java.lang.String[] args) {
+        int[] x = new int[]{10,1,2,7,6,1,5};
+        System.out.println(combinationSum(x, 8));
+    }
+
+    public static List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> res = new ArrayList<>();
+        Arrays.sort(candidates);
+        combinationSumHelper(res, new ArrayList<>(), 0, candidates, target);
         return res;
+    }
+
+    public static void combinationSumHelper(List<List<Integer>> res, List<Integer> current, int start, int[] candidates, int target) {
+        if (target == 0) {
+            res.add(new ArrayList<>(current));
+            return;
+        }
+        if (target < 0) return;
+        for (int i = start; i < candidates.length; i++) {
+            current.add(candidates[i]);
+            combinationSumHelper(res, current, i+1, candidates, target - candidates[i]);
+            current.remove(current.size() - 1);
+        }
     }
 
     public static void generateParenthesisBacktracking(List<String> res, String current, int open, int close, int n) {
