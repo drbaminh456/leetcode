@@ -543,5 +543,14 @@ public class LinkedLst {
 
         return maxLength;
     }
-    
+    public static void reverse(ListNode head){
+        ListNode cur = head;
+        ListNode prev = null;
+        while (cur != null) {
+            ListNode newNode = cur.next;
+            cur.next = prev;
+            prev = cur;
+            cur = newNode;
+        }
+    }
 }

@@ -6,10 +6,41 @@ import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
-        int[] nums = {2,2,2,3};
-        System.out.println(removeDuplicates(nums));
+        int[] nums = {2,4,1,1,4};
+        System.out.println(jump(nums));
     }
 
+    public static int jump(int[] nums) {
+        int jump = 0, farthestIndex = 0, currentEnd = 0;
+        for (int i = 0; i < nums.length-1; i++) {
+            farthestIndex = Math.max(farthestIndex, i + nums[i]);
+            if (i == currentEnd) {
+                jump++;
+                currentEnd = farthestIndex;
+                if (currentEnd >= nums.length - 1) break;
+            }
+        }
+        return jump;
+    }
+
+    public static int longestValidParentheses(String s) {
+        Stack<Integer> stack = new Stack<>();
+        int max = 0;
+        stack.push(-1);
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '(') {
+                stack.push(i);
+            } else {
+                stack.pop();
+                if (stack.isEmpty()) {
+                    stack.push(i);
+                } else {
+                    max = Math.max(max, i - stack.peek());
+                }
+            }
+        }
+        return max;
+    }
     public static void nextPermutation(int[] nums) {
         int i;
         for (i = nums.length - 2; i >= 0; --i) {
@@ -58,6 +89,7 @@ public class Main {
                 i++;
             }
         }
+        System.out.println(nums);
         return i;
     }
 

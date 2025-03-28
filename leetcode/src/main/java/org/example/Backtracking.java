@@ -7,6 +7,27 @@ public class Backtracking {
         int[] x = new int[]{10,1,2,7,6,1,5};
         System.out.println(combinationSum(x, 8));
     }
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        backtrackingPermete(res, nums, new ArrayList<>(), new boolean[nums.length]);
+        return res;
+    }
+
+    private void backtrackingPermete(List<List<Integer>> res, int[] nums, List<Integer> temp, boolean[] used) {
+        if (temp.size() == nums.length){
+            res.add(new ArrayList<>(temp));
+            return;
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if (used[i]) continue;
+            if (i > 0 && nums[i] == nums[i - 1] && !used[i - 1]) continue;
+            used[i] = true;
+            temp.add(nums[i]);
+            backtrackingPermete(res, nums, temp, used);
+            temp.remove(temp.size() - 1);
+            used[i] = false;
+        }
+    }
 
     public static List<List<Integer>> combinationSum(int[] candidates, int target) {
         List<List<Integer>> res = new ArrayList<>();
